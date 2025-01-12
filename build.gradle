@@ -24,3 +24,13 @@ test {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
 }
+
+tasks.register('smokeTest', Test) {
+    group = "verification" // Для группировки задач
+    description = "Runs only the smoke tests"
+    testClassesDirs = testing.suites.test.sources.output.classesDirs
+    classpath = testing.suites.test.sources.runtimeClasspath
+    useJUnitPlatform {
+        includeTags("Smoke")
+    }
+}

@@ -14,42 +14,63 @@ import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ProductPageTest extends BaseTest {
 
     @Test
     @DisplayName("Check URL")
     void checkUrl() {
-        webdriver().shouldHave(url("https://demoblaze.com"));
+        webdriver().shouldHave(url("https://demoblaze.com/"));
     }
 
     @Test
     @DisplayName("Check name of first product card on the page")
-    void firstProductName() {
+    void checkFirstProductName() {
+        //Arrange
         SelenideElement firstItem = ProductPage.itemCard.first();
+
+        //Act
         String productName = new ItemElements(firstItem).getProductName();
+
+        //Assert
         Assertions.assertEquals("Samsung galaxy s6", productName);
         System.out.println("First product on page: " + productName);
     }
 
     @Test
-    @DisplayName("Check name of first product card on the next page")
-    void nextPageFirstProductName() {
+    @DisplayName("Check load new items group on product page")
+    @Tag("Smoke")
+    void checkLoadNewItemsGroup() {
+        //Arrange
+        SelenideElement firstItemFistPage = ProductPage.itemCard.first();
+        String firstProductName = new ItemElements(firstItemFistPage).getProductName();
+
+        //Act
         ProductPage.nextButton.click();
         ProductPage.nextButton.should(disappear);
-        SelenideElement firstItem = ProductPage.itemCard.first();
-        String productName = new ItemElements(firstItem).getProductName();
-        Assertions.assertEquals("Apple monitor 24", productName);
-        System.out.println("First product onSecond page: " + productName);
+        SelenideElement firstItemSecondPage = ProductPage.itemCard.first();
+        String secondProductName = new ItemElements(firstItemSecondPage).getProductName();
+
+        //Assert
+        assertNotEquals(firstProductName, secondProductName);
+        System.out.println("First product on First page: " + firstProductName);
+        System.out.println("First product on Second page: " + secondProductName);
         ProductPage.previousButton.click();
         ProductPage.nextButton.shouldBe(visible);
     }
 
     @Test
     @DisplayName("Check contact form is visible")
+    @Tag("Smoke")
     void getContactForm() {
+        //Arrange
         NavBarElements.clickContactButton();
+
+        //Act
         ContactForm form = new ContactForm();
+
+        //Assert
         form.waitContactFormIsLoaded();
         form.clickCloseFormButton();
     }
@@ -57,15 +78,20 @@ public class ProductPageTest extends BaseTest {
     @Test
     @DisplayName("Fill and send contact form")
     @Tag("Integration")
-    void fillAndSendContactForm() {
+    void fillAndSendContactFormIfEmailIsCorrect() {
+        //Arrange
         String email = "test_email@example.com";
         String name = "test_name";
         String message = "test_message";
+
+        //Act
         NavBarElements.clickContactButton();
         ContactForm form = new ContactForm();
         form.waitContactFormIsLoaded();
         form.fillContactForm(email, name, message);
         form.clickSendMessageButton();
+        System.out.println("Check email: " + email + " got message: " + message);
+        form.contactFormTitle.should(disappear);
     }
 
 

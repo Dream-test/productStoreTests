@@ -9,9 +9,9 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class ContactForm {
-    private final SelenideElement contactFormTitle = $(By.cssSelector("h5#exampleModalLabel"));
-    private final SelenideElement emailInput = $(By.cssSelector("input#recipient-email"));
-    private final SelenideElement nameInput = $(By.cssSelector("input#recipient-name"));
+    public final SelenideElement contactFormTitle = $(By.cssSelector("h5#exampleModalLabel"));
+    public final SelenideElement emailInput = $(By.cssSelector("input#recipient-email"));
+    public final SelenideElement nameInput = $(By.cssSelector("input#recipient-name"));
     private final SelenideElement messageInput = $(By.cssSelector("textarea#message-text"));
     private final SelenideElement closeFormButton = $(Selectors.byTagAndText("button", "Close"));
     private final SelenideElement sendMessageButton = $(Selectors.byTagAndText("button", "Send message"));
@@ -37,8 +37,6 @@ public class ContactForm {
 
     public void clickSendMessageButton() {
         sendMessageButton.click();
-        System.out.println("Check email: " + email + " got message: " + message);
-        contactFormTitle.should(disappear);
     }
 
 
