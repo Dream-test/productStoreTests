@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.webproject.PageElements.ContactForm;
-import org.webproject.PageElements.ItemElements;
+import org.webproject.PageElements.ItemCardElements;
 import org.webproject.PageElements.LoginForm;
 import org.webproject.PageElements.NavBarElements;
 import org.webproject.Pages.ProductPage;
@@ -33,10 +33,10 @@ public class ProductPageTest extends BaseTest {
     void checkFirstProductName() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
-        SelenideElement firstItem = ProductPage.itemCard.first();
+        SelenideElement firstItem = ProductPage.itemCards.first();
 
         //Act
-        String productName = new ItemElements(firstItem).getProductName();
+        String productName = new ItemCardElements(firstItem).getProductName();
 
         //Assert
         Assertions.assertEquals("Samsung galaxy s6", productName);
@@ -49,14 +49,14 @@ public class ProductPageTest extends BaseTest {
     void checkLoadNewItemsGroup() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
-        SelenideElement firstItemFistPage = ProductPage.itemCard.first();
-        String firstProductName = new ItemElements(firstItemFistPage).getProductName();
+        SelenideElement firstItemFistPage = ProductPage.itemCards.first();
+        String firstProductName = new ItemCardElements(firstItemFistPage).getProductName();
 
         //Act
         ProductPage.nextButton.click();
         ProductPage.nextButton.should(disappear);
-        SelenideElement firstItemSecondPage = ProductPage.itemCard.first();
-        String secondProductName = new ItemElements(firstItemSecondPage).getProductName();
+        SelenideElement firstItemSecondPage = ProductPage.itemCards.first();
+        String secondProductName = new ItemCardElements(firstItemSecondPage).getProductName();
 
         //Assert
         assertNotEquals(firstProductName, secondProductName);
