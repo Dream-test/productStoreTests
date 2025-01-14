@@ -3,7 +3,6 @@ package org.webproject.Pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.selector.ByTagAndText;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.text;

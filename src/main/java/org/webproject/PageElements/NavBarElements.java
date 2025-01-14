@@ -13,8 +13,8 @@ public class NavBarElements {
     public static final SelenideElement contactButton = $(Selectors.byTagAndText("a", "Contact"));
     public static final SelenideElement aboutButton = $(Selectors.byTagAndText("a", "About"));
     public static final SelenideElement cartButton = $(Selectors.byTagAndText("a", "Cart"));
-    public static final SelenideElement loginButton = $(Selectors.byTagAndText("a", "Login"));
-    public static final SelenideElement logoutButton = $(Selectors.byTagAndText("a", "Logout"));
+    public static final SelenideElement loginButton = $(By.id("login2"));
+    public static final SelenideElement logoutButton = $(By.id("logout2"));
     public static final SelenideElement signUpButton = $(Selectors.byTagAndText("a", "Sign Up"));
 
     public static void clickHomeButton() {

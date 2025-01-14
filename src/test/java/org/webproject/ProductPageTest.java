@@ -5,13 +5,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.webproject.PageElements.ContactForm;
 import org.webproject.PageElements.ItemElements;
+import org.webproject.PageElements.LoginForm;
 import org.webproject.PageElements.NavBarElements;
 import org.webproject.Pages.ProductPage;
 
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.switchTo;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -28,6 +32,7 @@ public class ProductPageTest extends BaseTest {
     @DisplayName("Check name of first product card on the page")
     void checkFirstProductName() {
         //Arrange
+        ProductPage.waitProductPageIsLoaded();
         SelenideElement firstItem = ProductPage.itemCard.first();
 
         //Act
@@ -43,6 +48,7 @@ public class ProductPageTest extends BaseTest {
     @Tag("Smoke")
     void checkLoadNewItemsGroup() {
         //Arrange
+        ProductPage.waitProductPageIsLoaded();
         SelenideElement firstItemFistPage = ProductPage.itemCard.first();
         String firstProductName = new ItemElements(firstItemFistPage).getProductName();
 
@@ -65,6 +71,7 @@ public class ProductPageTest extends BaseTest {
     @Tag("Smoke")
     void getContactForm() {
         //Arrange
+        ProductPage.waitProductPageIsLoaded();
         NavBarElements.clickContactButton();
 
         //Act
@@ -85,6 +92,7 @@ public class ProductPageTest extends BaseTest {
         String message = "test_message";
 
         //Act
+        ProductPage.waitProductPageIsLoaded();
         NavBarElements.clickContactButton();
         ContactForm form = new ContactForm();
         form.waitContactFormIsLoaded();
@@ -92,6 +100,52 @@ public class ProductPageTest extends BaseTest {
         form.clickSendMessageButton();
         System.out.println("Check email: " + email + " got message: " + message);
         form.contactFormTitle.should(disappear);
+    }
+
+    @ParameterizedTest
+    @DisplayName("Authorization with invalid login or password")
+    @Tag("Reression")
+    @CsvFileSource(resources = "/invalidLoginTestData.csv", numLinesToSkip = 1)
+    void userAuthorizationWithInvalidData(String login, String password) {
+        //Arrange
+        ProductPage.waitProductPageIsLoaded();
+        NavBarElements.clickLoginButton();
+        LoginForm loginForm = new LoginForm();
+        loginForm.waitLoginFormIsLoaded();
+        loginForm.clearLoginForm();
+
+        //Act & Assert
+        if (!(login == null || login.isBlank()) && !(password == null || password.isBlank())) {
+            loginForm.enterUsername(login);
+            loginForm.enterPassword(password);
+            loginForm.clickLoginButton();
+            String alertText = switchTo().alert().getText();
+            Assertions.assertEquals("User does not exist.", alertText);
+            switchTo().alert().accept();
+            loginForm.clickCloseButton();
+        } else if (!(login == null || login.isBlank()) && (password == null || password.isBlank())) {
+            loginForm.enterUsername(login);
+            loginForm.clickLoginButton();
+            checkAlertText();
+            loginForm.clickCloseButton();
+        } else if ((login == null || login.isBlank()) && !(password == null || password.isBlank())) {
+            loginForm.enterPassword(password);
+            loginForm.clickLoginButton();
+            checkAlertText();
+            loginForm.clickCloseButton();
+        } else {
+            loginForm.clickLoginButton();
+            checkAlertText();
+            loginForm.clickCloseButton();
+        }
+    }
+
+
+    void checkAlertText() {
+        String alertText = switchTo().alert().getText();
+        Assertions.assertEquals("Please fill out Username and Password.", alertText);
+        switchTo().alert().accept();
+
     }
 
 
