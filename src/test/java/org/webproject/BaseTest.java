@@ -32,6 +32,7 @@ public class BaseTest {
         clearBrowserCookies();
         clearBrowserLocalStorage();
         sessionStorage().clear();
+        refresh();
     }
 
     @AfterAll
