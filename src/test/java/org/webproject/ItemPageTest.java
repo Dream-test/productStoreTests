@@ -15,7 +15,7 @@ public class ItemPageTest extends BaseTest {
 
     @Test
     @Tag("Smoke")
-    void itemNameTest() {
+    void checkItemName() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
         SelenideElement item = ProductPage.itemCards.first();
@@ -47,7 +47,7 @@ public class ItemPageTest extends BaseTest {
 
     @Test
     @Tag("Smoke")
-    void itemPriceTest() {
+    void checkItemPrice() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
         SelenideElement item = ProductPage.itemCards.first();
