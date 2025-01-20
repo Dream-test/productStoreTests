@@ -17,18 +17,14 @@ public class BaseTest {
         Configuration.browserSize = "1366x768";
         Configuration.headless = true;
         Configuration.timeout = 10000;
+        if (baseUrl == null || baseUrl == "") {
+            System.out.println("Base URL is emty");
+        }
         open(baseUrl);
     }
 
     @BeforeEach
     public void setUpClearBrowser() {
-        clearBrowserCookies();
-        clearBrowserLocalStorage();
-        sessionStorage().clear();
-    }
-
-    @AfterEach
-    public void tearDownClearBrowser() {
         clearBrowserCookies();
         clearBrowserLocalStorage();
         sessionStorage().clear();

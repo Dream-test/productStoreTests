@@ -3,6 +3,7 @@ package org.webproject.Pages;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.clickable;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -14,6 +15,10 @@ public class ItemPage {
 
     public void waitItemPageIsLoaded() {
         $(By.cssSelector("div.product-deatil")).shouldBe(visible);
+        itemName.shouldBe(visible);
+        itemPrice.shouldBe(visible);
+        itemDescription.shouldBe(visible);
+        addToCartButton.shouldBe(visible).shouldBe(clickable);
     }
 
     public String getItemName() {

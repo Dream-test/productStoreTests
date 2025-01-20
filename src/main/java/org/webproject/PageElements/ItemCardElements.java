@@ -5,10 +5,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Condition.attributeMatching;
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Condition.*;
 
 public class ItemCardElements {
     SelenideElement item;
@@ -47,7 +44,7 @@ public class ItemCardElements {
 
     public void cardIsDisplayed() {
         itemImage.shouldBe(visible).shouldHave(Condition.attributeMatching("src", ".*imgs/.*"));
-        itemName.shouldBe(visible);
+        itemName.shouldBe(visible).shouldBe(clickable);
         itemPrice.shouldBe(visible);
         itemDescription.shouldBe(visible);
     }
