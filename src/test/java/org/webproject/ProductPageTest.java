@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.webproject.PageElements.ContactForm;
-import org.webproject.PageElements.ItemElements;
+import org.webproject.PageElements.ItemCardElements;
 import org.webproject.PageElements.LoginForm;
 import org.webproject.PageElements.NavBarElements;
 import org.webproject.Pages.ProductPage;
@@ -21,6 +23,7 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ProductPageTest extends BaseTest {
+    private static final Logger logger = LoggerFactory.getLogger(ProductPageTest.class);
 
     @Test
     @DisplayName("Check URL")
@@ -33,14 +36,14 @@ public class ProductPageTest extends BaseTest {
     void checkFirstProductName() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
-        SelenideElement firstItem = ProductPage.itemCard.first();
+        SelenideElement firstItem = ProductPage.itemCards.first();
 
         //Act
-        String productName = new ItemElements(firstItem).getProductName();
+        String productName = new ItemCardElements(firstItem).getProductName();
 
         //Assert
         Assertions.assertEquals("Samsung galaxy s6", productName);
-        System.out.println("First product on page: " + productName);
+        logger.info("First product on the page: {}", productName);
     }
 
     @Test
@@ -49,14 +52,14 @@ public class ProductPageTest extends BaseTest {
     void checkLoadNewItemsGroup() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
-        SelenideElement firstItemFistPage = ProductPage.itemCard.first();
-        String firstProductName = new ItemElements(firstItemFistPage).getProductName();
+        SelenideElement firstItemFistPage = ProductPage.itemCards.first();
+        String firstProductName = new ItemCardElements(firstItemFistPage).getProductName();
 
         //Act
         ProductPage.nextButton.click();
         ProductPage.nextButton.should(disappear);
-        SelenideElement firstItemSecondPage = ProductPage.itemCard.first();
-        String secondProductName = new ItemElements(firstItemSecondPage).getProductName();
+        SelenideElement firstItemSecondPage = ProductPage.itemCards.first();
+        String secondProductName = new ItemCardElements(firstItemSecondPage).getProductName();
 
         //Assert
         assertNotEquals(firstProductName, secondProductName);
@@ -98,7 +101,9 @@ public class ProductPageTest extends BaseTest {
         form.waitContactFormIsLoaded();
         form.fillContactForm(email, name, message);
         form.clickSendMessageButton();
-        System.out.println("Check email: " + email + " got message: " + message);
+
+        //Assert
+        logger.info("Check email: {} got message: {}", email, message);
         form.contactFormTitle.should(disappear);
     }
 
@@ -140,14 +145,9 @@ public class ProductPageTest extends BaseTest {
         }
     }
 
-
     void checkAlertText() {
         String alertText = switchTo().alert().getText();
         Assertions.assertEquals("Please fill out Username and Password.", alertText);
         switchTo().alert().accept();
-
     }
-
-
-
 }
