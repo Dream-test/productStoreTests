@@ -1,6 +1,8 @@
 package org.webproject;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.*;
+import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -27,12 +29,20 @@ public class ProductPageTest extends BaseTest {
 
     @Test
     @DisplayName("Check URL")
+    @Description("Check URL in webdriver")
+    @Epic("Test environment")
+    @Owner("Valiantsin")
     void checkUrl() {
         webdriver().shouldHave(url("https://demoblaze.com/"));
     }
 
     @Test
     @DisplayName("Check name of first product card on the page")
+    @Description("Check name of first product card on the page")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.MINOR)
+    @Story("Product pages")
+    @Owner("Valiantsin")
     void checkFirstProductName() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
@@ -48,7 +58,12 @@ public class ProductPageTest extends BaseTest {
 
     @Test
     @DisplayName("Check load new items group on product page")
+    @Description("Check load new items group on product page")
     @Tag("Smoke")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Product pages")
+    @Owner("Valiantsin")
     void checkLoadNewItemsGroup() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
@@ -71,7 +86,12 @@ public class ProductPageTest extends BaseTest {
 
     @Test
     @DisplayName("Check contact form is visible")
+    @Description("Check contact form is visible")
     @Tag("Smoke")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Navigation bar")
+    @Owner("Valiantsin")
     void getContactForm() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
@@ -87,7 +107,12 @@ public class ProductPageTest extends BaseTest {
 
     @Test
     @DisplayName("Fill and send contact form")
+    @Description("Fill and send contact form")
     @Tag("Integration")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.NORMAL)
+    @Story("Contact message")
+    @Owner("Valiantsin")
     void fillAndSendContactFormIfEmailIsCorrect() {
         //Arrange
         String email = "test_email@example.com";
@@ -109,7 +134,12 @@ public class ProductPageTest extends BaseTest {
 
     @ParameterizedTest
     @DisplayName("Authorization with invalid login or password")
+    @Description("Authorization with invalid login or password")
     @Tag("Reression")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Login procedure")
+    @Owner("Valiantsin")
     @CsvFileSource(resources = "/invalidLoginTestData.csv", numLinesToSkip = 1)
     void userAuthorizationWithInvalidData(String login, String password) {
         //Arrange

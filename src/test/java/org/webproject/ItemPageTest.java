@@ -1,6 +1,8 @@
 package org.webproject;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.*;
+import jdk.jfr.Description;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.webproject.PageElements.ItemCardElements;
@@ -14,7 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ItemPageTest extends BaseTest {
 
     @Test
+    @Description("Check getting item page from item card")
     @Tag("Smoke")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.BLOCKER)
+    @Story("Item pages")
+    @Owner("Valiantsin")
     void checkItemName() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
@@ -33,7 +40,12 @@ public class ItemPageTest extends BaseTest {
     }
 
     @Test
+    @Description("Check item card elements is visible")
     @Tag("Smoke")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Item cards")
+    @Owner("Valiantsin")
     void itemCardElementsIsVisible() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
@@ -46,7 +58,12 @@ public class ItemPageTest extends BaseTest {
     }
 
     @Test
+    @Description("Check price on item page")
     @Tag("Smoke")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.CRITICAL)
+    @Story("Item pages")
+    @Owner("Valiantsin")
     void checkItemPrice() {
         //Arrange
         ProductPage.waitProductPageIsLoaded();
