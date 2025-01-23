@@ -1,0 +1,3 @@
+allure:
+  results: build/allure-results
+  report: build/allure-report
