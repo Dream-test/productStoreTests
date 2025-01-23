@@ -1,5 +1,6 @@
 package org.webproject;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import jdk.jfr.Description;
@@ -11,10 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.webproject.PageElements.ContactForm;
-import org.webproject.PageElements.ItemCardElements;
-import org.webproject.PageElements.LoginForm;
-import org.webproject.PageElements.NavBarElements;
+import org.webproject.PageElements.*;
 import org.webproject.Pages.ProductPage;
 
 import static com.codeborne.selenide.Condition.disappear;
@@ -22,6 +20,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.switchTo;
 import static com.codeborne.selenide.Selenide.webdriver;
 import static com.codeborne.selenide.WebDriverConditions.url;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class ProductPageTest extends BaseTest {
@@ -173,6 +172,29 @@ public class ProductPageTest extends BaseTest {
             checkAlertText();
             loginForm.clickCloseButton();
         }
+    }
+
+    @Test
+    @DisplayName("Check 'About Us' form is visible and has video player")
+    @Description("Check 'About Us' form is visible nd has video player")
+    @Tag("Smoke")
+    @Epic("Web interface")
+    @Severity(SeverityLevel.MINOR)
+    @Story("Navigation bar")
+    @Owner("Valiantsin")
+    void getAndCheckPlayerForm() {
+        ProductPage.waitProductPageIsLoaded();
+        NavBarElements.clickAboutButton();
+        AboutUsPlayer.waitAboutUsPlayerIsLoaded();
+        AboutUsPlayer.clickGetPlayerButton();
+        AboutUsPlayer.vjsControlButton.shouldBe(visible).shouldNotHave(Condition.cssClass("vjs-paused"));
+        assertEquals("Pause", AboutUsPlayer.getTitleVjsControlButton());
+        AboutUsPlayer.clickByPlayerWindow();
+        AboutUsPlayer.vjsControlButton.shouldBe(visible);
+        assertEquals("Play", AboutUsPlayer.getTitleVjsControlButton());
+        AboutUsPlayer.clickCloseButton();
+        AboutUsPlayer.title.shouldBe(disappear);
+
     }
 
     void checkAlertText() {
