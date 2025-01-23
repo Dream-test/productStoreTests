@@ -78,8 +78,8 @@ public class ProductPageTest extends BaseTest {
 
         //Assert
         assertNotEquals(firstProductName, secondProductName);
-        System.out.println("First product on First page: " + firstProductName);
-        System.out.println("First product on Second page: " + secondProductName);
+        logger.info("First product on First page: {}", firstProductName);
+        logger.info("First product on Second page: {}", secondProductName);
         ProductPage.previousButton.click();
         ProductPage.nextButton.shouldBe(visible);
     }
