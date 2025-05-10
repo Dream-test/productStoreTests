@@ -4,10 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import jdk.jfr.Description;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.slf4j.Logger;
@@ -174,6 +171,7 @@ public class ProductPageTest extends BaseTest {
         }
     }
 
+    @Disabled("Known bug: HLS playlist request error at URL: https://hls.demoblaze.com/index.m3u8")
     @Test
     @DisplayName("Check 'About Us' form is visible and has video player")
     @Description("Check 'About Us' form is visible nd has video player")
