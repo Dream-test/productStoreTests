@@ -2,7 +2,6 @@ package org.webproject;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ public class BaseTest {
         Configuration.headless = true;
         Configuration.timeout = 10000;
         if (baseUrl == null || baseUrl == "") {
-            logger.info("Base URL is emty");
+            logger.info("Base URL is empty");
         }
         open(baseUrl);
     }
